@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Actividades - Sistema de Gestión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .actividades-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .actividades-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .actividades-header h2 {
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .btn-admin {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .actividad-card {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .actividad-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .actividad-card.completada {
+            border-left-color: #51cf66;
+            background: #f0fff4;
+        }
+
+        .actividad-titulo {
+            color: #333;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .actividad-descripcion {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .actividad-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .estado {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .estado.completada {
+            background: #51cf66;
+            color: white;
+        }
+
+        .estado.pendiente {
+            background: #ffd43b;
+            color: #333;
+        }
+
+        .fecha {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .actividades-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="header">
+            <h1>📋 Sistema de Gestión de Actividades</h1>
+            <p>Organiza y mantén el control de tus tareas diarias</p>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>{{ actividades|length }}</h3>
+                <p>Total de Actividades</p>
+            </div>
+            <div class="stat-card">
+                <h3>{% for act in actividades %}{% if act.completada %}{{ forloop.counter }}{% endif %}{% empty %}0{% endfor %}</h3>
+                <p>Completadas</p>
+            </div>
+            <div class="stat-card">
+                <h3>{% for act in actividades %}{% if not act.completada %}{{ forloop.counter }}{% endif %}{% empty %}0{% endfor %}</h3>
+                <p>Pendientes</p>
+            </div>
+        </div>
+
+        <!-- Lista de Actividades -->
+        <div class="actividades-container">
+            <div class="actividades-header">
+                <h2>Mis Actividades</h2>
+                <a href="/admin/mi_aplicacion/actividad/add/" class="btn-admin">➕ Nueva Actividad</a>
+            </div>
+
+            {% if actividades %}
+                {% for actividad in actividades %}
+                <div class="actividad-card {% if actividad.completada %}completada{% endif %}">
+                    <div class="actividad-titulo">
+                        {% if actividad.completada %}✅{% else %}⏳{% endif %}
+                        {{ actividad.titulo }}
+                    </div>
+                    <div class="actividad-descripcion">
+                        {{ actividad.descripcion }}
+                    </div>
+                    <div class="actividad-footer">
+                        <span class="estado {% if actividad.completada %}completada{% else %}pendiente{% endif %}">
+                            {% if actividad.completada %}
+                                ✓ Completada
+                            {% else %}
+                                ⌛ Pendiente
+                            {% endif %}
+                        </span>
+                        <span class="fecha">
+                            📅 {{ actividad.fecha_creacion|date:"d/m/Y" }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <h3>No hay actividades aún</h3>
+                    <p>Comienza agregando tu primera actividad para organizar tus tareas</p>
+                    <a href="/admin/mi_aplicacion/actividad/add/" class="btn-admin">➕ Crear Primera Actividad</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Pie de página -->
+        <div style="text-align: center; margin-top: 30px; color: white;">
+            <p style="font-size: 0.9em;">© 2025 Sistema de Actividades | Desarrollado con Django</p>
+        </div>
+    </div>
+</body>
+</html>
