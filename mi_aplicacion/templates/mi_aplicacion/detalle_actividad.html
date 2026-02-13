@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ actividad.titulo }} - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .btn-back {
+            background: white;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .detalle-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .detalle-header {
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .detalle-titulo {
+            color: #333;
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .estado-badge {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .estado-badge.completada {
+            background: #51cf66;
+            color: white;
+        }
+
+        .estado-badge.pendiente {
+            background: #ffd43b;
+            color: #333;
+        }
+
+        .detalle-meta {
+            display: flex;
+            gap: 30px;
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 15px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detalle-body {
+            margin: 30px 0;
+        }
+
+        .detalle-body h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .detalle-descripcion {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .detalle-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-edit {
+            background: #ffd43b;
+            color: #333;
+        }
+
+        .btn-edit:hover {
+            background: #fcc419;
+            transform: translateY(-2px);
+        }
+
+        .btn-toggle {
+            background: #51cf66;
+            color: white;
+        }
+
+        .btn-toggle:hover {
+            background: #40c057;
+            transform: translateY(-2px);
+        }
+
+        .btn-toggle.pendiente {
+            background: #868e96;
+        }
+
+        .btn-toggle.pendiente:hover {
+            background: #495057;
+        }
+
+        .btn-delete {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #fa5252;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .detalle-card {
+                padding: 25px;
+            }
+
+            .detalle-titulo {
+                font-size: 1.5em;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detalle-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .detalle-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'lista_actividades' %}" class="btn-back">← Volver a la lista</a>
+
+        <div class="detalle-card">
+            <div class="detalle-header">
+                <div class="detalle-titulo">
+                    {% if actividad.completada %}✅{% else %}⏳{% endif %}
+                    {{ actividad.titulo }}
+                </div>
+                <span class="estado-badge {% if actividad.completada %}completada{% else %}pendiente{% endif %}">
+                    {% if actividad.completada %}
+                        ✓ Completada
+                    {% else %}
+                        ⌛ Pendiente
+                    {% endif %}
+                </span>
+                <div class="detalle-meta">
+                    <div class="meta-item">
+                        <span>📅</span>
+                        <span>Creada: {{ actividad.fecha_creacion|date:"d/m/Y H:i" }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span>🆔</span>
+                        <span>ID: {{ actividad.pk }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detalle-body">
+                <h3>📝 Descripción</h3>
+                <div class="detalle-descripcion">
+                    {{ actividad.descripcion|linebreaks }}
+                </div>
+            </div>
+
+            <div class="detalle-actions">
+                <a href="{% url 'editar_actividad' actividad.pk %}" class="btn btn-edit">
+                    ✏️ Editar Actividad
+                </a>
+                <form method="post" action="{% url 'toggle_completada' actividad.pk %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-toggle {% if not actividad.completada %}pendiente{% endif %}">
+                        {% if actividad.completada %}
+                            ↩️ Marcar como Pendiente
+                        {% else %}
+                            ✅ Marcar como Completada
+                        {% endif %}
+                    </button>
+                </form>
+                <a href="{% url 'eliminar_actividad' actividad.pk %}" class="btn btn-delete">
+                    🗑️ Eliminar Actividad
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

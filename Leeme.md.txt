@@ -1,0 +1,81 @@
+# Proyecto Django - Sistema de Actividades
+
+## Descripción
+Aplicación web desarrollada con Django para gestionar actividades con panel de administración.
+
+## Estructura del Proyecto
+- **mi_proyecto/**: Configuración principal de Django
+- **mi_aplicacion/**: Aplicación de actividades
+- **templates/**: Plantillas HTML
+
+## Características
+✅ Lista de actividades con título y descripción
+✅ Panel de administración de Django
+✅ Base de datos SQLite
+✅ Interfaz web responsive
+
+## Instalación y Configuración
+
+### Requisitos
+- Python 3.8 o superior
+- Django 4.x o superior
+
+### Pasos para ejecutar el proyecto
+
+1. **Clonar el repositorio**
+```bash
+git clone https://github.com/[tu-usuario]/proyecto-django-actividades.git
+cd proyecto-django-actividades
+```
+
+2. **Crear y activar entorno virtual**
+```bash
+python -m venv venv
+venv\Scripts\activate  # En Windows
+```
+
+3. **Instalar Django**
+```bash
+pip install django
+```
+
+4. **Ejecutar migraciones**
+```bash
+python manage.py migrate
+```
+
+5. **Crear superusuario**
+```bash
+python manage.py createsuperuser
+```
+
+6. **Ejecutar servidor**
+```bash
+python manage.py runserver
+```
+
+## Uso
+
+### Acceder a la aplicación
+- **Página principal**: http://127.0.0.1:8000/
+- **Panel de administración**: http://127.0.0.1:8000/admin/
+
+### Agregar actividades
+1. Accede al panel de administración
+2. Inicia sesión con tu superusuario
+3. Ve a "Actividades"
+4. Haz clic en "Agregar actividad"
+5. Las actividades aparecerán en la página principal
+
+## Tecnologías utilizadas
+- Python
+- Django Framework
+- SQLite
+- HTML/CSS
+
+## Autor
+[Nicolle Sandoval]
+
+## Fecha
+29 de Noviembre del 2025
+```

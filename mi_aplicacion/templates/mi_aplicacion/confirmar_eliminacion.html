@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Eliminación - Sistema de Actividades</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .confirm-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .warning-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .confirm-card h1 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .confirm-card p {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .actividad-preview {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .actividad-preview h3 {
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .actividad-preview p {
+            color: #555;
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        .warning-message {
+            background: #ffe0e0;
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .warning-message strong {
+            color: #c92a2a;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            flex: 1;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #fa5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        @media (max-width: 768px) {
+            .confirm-card {
+                padding: 25px;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="confirm-card">
+            <div class="warning-icon">⚠️</div>
+            
+            <h1>¿Estás seguro?</h1>
+            <p>Estás a punto de eliminar la siguiente actividad:</p>
+
+            <div class="actividad-preview">
+                <h3>
+                    {% if actividad.completada %}✅{% else %}⏳{% endif %}
+                    {{ actividad.titulo }}
+                </h3>
+                <p>{{ actividad.descripcion|truncatewords:30 }}</p>
+                <p style="margin-top: 10px; color: #999; font-size: 0.9em;">
+                    📅 Creada: {{ actividad.fecha_creacion|date:"d/m/Y" }}
+                </p>
+            </div>
+
+            <div class="warning-message">
+                <strong>⚠️ Advertencia:</strong> Esta acción no se puede deshacer. La actividad será eliminada permanentemente de la base de datos.
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'lista_actividades' %}" class="btn btn-secondary">
+                    ← Cancelar
+                </a>
+                <form method="post" style="flex: 1;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" style="width: 100%;">
+                        🗑️ Sí, eliminar actividad
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
